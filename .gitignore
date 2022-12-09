@@ -6,6 +6,7 @@
 *.ko
 *.obj
 *.elf
+*.hex
 
 # Linker output
 *.ilk
@@ -50,3 +51,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Keil file
+*.lnp
+*.inTree
+*.uvopt
+keil-assistant*
