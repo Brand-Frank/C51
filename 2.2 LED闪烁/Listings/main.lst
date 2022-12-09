@@ -1,0 +1,78 @@
+C51 COMPILER V9.57.0.0   MAIN                                                              12/01/2022 22:15:28 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\MCU\Keil5\C51\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          /**
+   2           * @file main.c
+   3           * @author codebug (zhang_classmate@qq.com)
+   4           * @brief LED闪烁
+   5           * @version 0.1
+   6           * @date 2022-12-01 22:12
+   7           *
+   8           * @copyright Copyright (c) 2022
+   9           *
+  10           */
+  11          #include <REG52.H>
+  12          #include <INTRINS.H>
+  13          
+  14          void Delay500ms(); //@11.0592MHz
+  15          
+  16          int main(void)
+  17          {
+  18   1          while (1)
+  19   1          {
+  20   2              P2 = 0xfe; // 1111-1110
+  21   2              Delay500ms();
+  22   2              P2 = 0xff; // 1111-1111
+  23   2              Delay500ms();
+  24   2          }
+  25   1          // return 0;
+  26   1      }
+  27          
+  28          void Delay500ms() //@11.0592MHz
+  29          {
+  30   1          unsigned char i, j, k;
+  31   1      
+  32   1          _nop_();
+  33   1          i = 4;
+  34   1          j = 129;
+  35   1          k = 119;
+  36   1          do
+  37   1          {
+  38   2              do
+  39   2              {
+  40   3                  while (--k)
+  41   3                      ;
+  42   3              } while (--j);
+  43   2          } while (--i);
+  44   1      }
+  45          
+  46          void delay(int ms)
+  47          {
+  48   1          int i, j;
+  49   1          for (i = 0; i <= 100; i++)
+  50   1              for (j = 0; j <= ms; j++)
+  51   1                  ;
+  52   1      }
+
+
+C51 COMPILER V9.57.0.0   MAIN                                                              12/01/2022 22:15:28 PAGE 2   
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     66    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

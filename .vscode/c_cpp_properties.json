@@ -1,0 +1,39 @@
+{
+    "configurations": [
+        {
+            "name": "Target 1",
+            "includePath": [
+                "D:\\MCU\\Keil5\\C51\\C51\\INC",
+                "e:\\MCU\\C51\\普中A2开发板资料\\0--练习\\2.1 点亮LED",
+                "e:\\MCU\\C51\\普中A2开发板资料\\0--练习\\2.2 LED闪烁",
+                "e:\\MCU\\C51\\普中A2开发板资料\\0--练习\\2.2 LED流水灯"
+            ],
+            "defines": [
+                "__C51__",
+                "__VSCODE_C51__",
+                "reentrant=",
+                "compact=",
+                "small=",
+                "large=",
+                "data=",
+                "idata=",
+                "pdata=",
+                "bdata=",
+                "xdata=",
+                "code=",
+                "bit=char",
+                "sbit=char",
+                "sfr=char",
+                "sfr16=int",
+                "sfr32=int",
+                "interrupt=",
+                "using=",
+                "_at_=",
+                "_priority_=",
+                "_task_="
+            ],
+            "intelliSenseMode": "${default}"
+        }
+    ],
+    "version": 4
+}

@@ -1,0 +1,110 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    12/03/2022  19:18:11  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+D:\MCU\KEIL5\C51\C51\BIN\BL51.EXE .\Objects\main.obj TO .\Objects\LED-flow-light PRINT (.\Listings\LED-flow-light.m51) R
+>> AMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\main.obj (MAIN)
+  D:\MCU\KEIL5\C51\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\Objects\LED-flow-light (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0002H     UNIT         _DATA_GROUP_
+            IDATA   000AH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0023H     UNIT         ?PR?MAIN?MAIN
+            CODE    0026H     000EH     UNIT         ?PR?DELAY500MS?MAIN
+            CODE    0034H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\LED-flow-light (MAIN)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?MAIN
+
+?PR?MAIN?MAIN                  0008H    0002H
+  +--> ?PR?DELAY500MS?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\LED-flow-light (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/03/2022  19:18:11  PAGE 2
+
+
+  C:0003H         PUBLIC        main
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  D:00C8H         PUBLIC        T2CON
+  C:0026H         PUBLIC        Delay500ms
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          MAIN
+  -------         DO            
+  D:0008H         SYMBOL        cnt
+  -------         ENDDO         
+  C:0003H         LINE#         71
+  C:0003H         LINE#         72
+  C:0003H         LINE#         73
+  C:0009H         LINE#         74
+  C:000CH         LINE#         75
+  C:000CH         LINE#         76
+  C:000CH         LINE#         77
+  C:000FH         LINE#         78
+  C:0015H         LINE#         79
+  C:001DH         LINE#         80
+  C:0021H         LINE#         81
+  C:0024H         LINE#         82
+  -------         ENDPROC       MAIN
+  -------         PROC          DELAY500MS
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0006H         SYMBOL        j
+  D:0005H         SYMBOL        k
+  -------         ENDDO         
+  C:0026H         LINE#         87
+  C:0026H         LINE#         88
+  C:0026H         LINE#         91
+  C:0027H         LINE#         92
+  C:0029H         LINE#         93
+  C:002BH         LINE#         94
+  C:002DH         LINE#         96
+  C:002DH         LINE#         98
+  C:002DH         LINE#         99
+  C:002FH         LINE#         101
+  C:0031H         LINE#         102
+  C:0033H         LINE#         103
+  -------         ENDPROC       DELAY500MS
+  -------         ENDMOD        MAIN
+
+Program Size: data=11.0 xdata=0 code=64
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

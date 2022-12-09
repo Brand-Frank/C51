@@ -1,0 +1,21 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cppbuild",
+			"label": "Keil编译",
+			"command": "D:\\MCU\\Keil5\\C51\\UV4\\UV4.exe",
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"detail": "编译器: D:\\MCU\\Keil5\\C51\\UV4\\UV4.exe"
+		}
+	]
+}

@@ -1,0 +1,99 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    12/01/2022  21:41:43  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+D:\MCU\KEIL5\C51\C51\BIN\BL51.EXE .\Objects\LED.obj TO .\Objects\LED PRINT (.\Listings\LED.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\LED.obj (LED)
+  D:\MCU\KEIL5\C51\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\Objects\LED (LED)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0002H     UNIT         _DATA_GROUP_
+            IDATA   000AH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     002EH     UNIT         ?PR?MAIN?LED
+            CODE    0031H     0028H     UNIT         ?PR?_DELAY?LED
+            CODE    0059H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\LED (LED)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?LED
+
+?PR?MAIN?LED                   0008H    0002H
+  +--> ?PR?_DELAY?LED
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\LED (LED)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        LED
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:00A0H         PUBLIC        P2
+  C:0031H         PUBLIC        _delay
+  C:0003H         PUBLIC        main
+  -------         PROC          MAIN
+  -------         DO            
+  D:0008H         SYMBOL        cnt
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/01/2022  21:41:43  PAGE 2
+
+
+  -------         ENDDO         
+  C:0003H         LINE#         5
+  C:0003H         LINE#         6
+  C:0003H         LINE#         7
+  C:0008H         LINE#         8
+  C:000BH         LINE#         9
+  C:000BH         LINE#         10
+  C:000BH         LINE#         11
+  C:0012H         LINE#         12
+  C:0018H         LINE#         13
+  C:0020H         LINE#         14
+  C:0020H         LINE#         15
+  C:0023H         LINE#         16
+  C:0027H         LINE#         17
+  C:0027H         LINE#         18
+  C:002FH         LINE#         19
+  -------         ENDPROC       MAIN
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        ms
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:0031H         LINE#         25
+  C:0031H         LINE#         26
+  C:0031H         LINE#         28
+  C:0035H         LINE#         29
+  C:0035H         LINE#         30
+  C:004DH         LINE#         31
+  C:0058H         LINE#         32
+  -------         ENDPROC       _DELAY
+  -------         ENDMOD        LED
+
+Program Size: data=11.0 xdata=0 code=101
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
