@@ -1,4 +1,4 @@
-C51 COMPILER V9.57.0.0   MAIN                                                              12/10/2022 21:03:48 PAGE 1   
+C51 COMPILER V9.57.0.0   MAIN                                                              12/10/2022 21:08:10 PAGE 1   
 
 
 C51 COMPILER V9.57.0.0, COMPILATION OF MODULE MAIN
@@ -34,50 +34,65 @@ line level    source
   24          {
   25   1              while(1)
   26   1              {
-  27   2                      D1 = 1; //一开始灯是亮的，按一次，取一次反
-  28   2                      if(K1 == 0)
-  29   2                      {
-  30   3                              Delay(20);      //按下消抖(Press to remove shaking)
-  31   3                              while(K1 == 0); //检测按键是否松开，没松开就一直停在此处，否则松开了，执行�
+  27   2                      if(K1 == 0)
+  28   2                      {
+  29   3                              Delay(20);      //按下消抖(Press to remove shaking)
+  30   3                              while(K1 == 0); //检测按键是否松开，没松开就一直停在此处，否则松开了，执行�
              -��面的语句(Check whether the key is released. If not, stop here all the time. If not, execute the following statemen
              -t)
-  32   3                              Delay(20);      //松开消抖(Release to eliminate shaking)
-  33   3                              D1 = ~D1;
-  34   3                      }
-  35   2              }
-  36   1      }
-  37          
-  38          #elif defined TWO
+  31   3                              Delay(20);      //松开消抖(Release to eliminate shaking)
+  32   3                              D1 = ~D1;
+  33   3                      }
+  34   2              }
+  35   1      }
+  36          
+  37          #elif defined TWO               //BUG: 一开始就指定D1的状态，之后的按键操作不执行
+              void main(void)
+              {
+                      while(1)
+                      {
+                              D1 = 0; //BUG
+                              if(K1 == 0)
+                              {
+                                      Delay(20);      //按下消抖(Press to remove shaking)
+                                      while(K1 == 0); //检测按键是否松开，没松开就一直停在此处，否则松开了，执行�
+             -��面的语句(Check whether the key is released. If not, stop here all the time. If not, execute the following statemen
+             -t)
+                                      Delay(20);      //松开消抖(Release to eliminate shaking)
+                                      D1 = ~D1;
+                              }
+                      }
+C51 COMPILER V9.57.0.0   MAIN                                                              12/10/2022 21:08:10 PAGE 2   
+
+              }
               
               #elif defined THREE
               
               
               #endif
-  44          
-  45          void Delay(unsigned int ms)             //@11.0592MHz
-  46          {
-  47   1              unsigned char i, j;
-  48   1      
-  49   1              _nop_();
-  50   1              
-  51   1              do
-  52   1              {
-C51 COMPILER V9.57.0.0   MAIN                                                              12/10/2022 21:03:48 PAGE 2   
-
-  53   2                      i = 2;
-  54   2                      j = 199;
-  55   2                      do
-  56   2                      {
-  57   3                              
-  58   3                              while (--j);
-  59   3                      } while (--i);
-  60   2              }while(ms--);
-  61   1              
-  62   1      }
+  57          
+  58          void Delay(unsigned int ms)             //@11.0592MHz
+  59          {
+  60   1              unsigned char i, j;
+  61   1      
+  62   1              _nop_();
+  63   1              
+  64   1              do
+  65   1              {
+  66   2                      i = 2;
+  67   2                      j = 199;
+  68   2                      do
+  69   2                      {
+  70   3                              
+  71   3                              while (--j);
+  72   3                      } while (--i);
+  73   2              }while(ms--);
+  74   1              
+  75   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     46    ----
+   CODE SIZE        =     44    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

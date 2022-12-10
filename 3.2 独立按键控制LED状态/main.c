@@ -24,7 +24,6 @@ void main(void)
 {
 	while(1)
 	{
-		D1 = 0;	//一开始灯是亮的，按一次，取一次反
 		if(K1 == 0)
 		{
 			Delay(20);	//按下消抖(Press to remove shaking)
@@ -35,7 +34,21 @@ void main(void)
 	}
 }
 
-#elif defined TWO
+#elif defined TWO		//BUG: 一开始就指定D1的状态，之后的按键操作不执行
+void main(void)
+{
+	while(1)
+	{
+		D1 = 0;	//BUG
+		if(K1 == 0)
+		{
+			Delay(20);	//按下消抖(Press to remove shaking)
+			while(K1 == 0);	//检测按键是否松开，没松开就一直停在此处，否则松开了，执行后面的语句(Check whether the key is released. If not, stop here all the time. If not, execute the following statement)
+			Delay(20);	//松开消抖(Release to eliminate shaking)
+			D1 = ~D1;
+		}
+	}
+}
 
 #elif defined THREE
 
