@@ -33,7 +33,7 @@ void main(void){
 	}
 }
 
-#elif defined THREE
+#elif defined THREE	/* && operate */
 void main(void){
 	while(1)
 	{
