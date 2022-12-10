@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    12/10/2022  20:43:38  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    12/10/2022  21:03:48  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
@@ -26,9 +26,9 @@ LINK MAP OF MODULE:  .\Objects\Key-LED-status (MAIN)
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
-            CODE    0003H     0018H     UNIT         ?PR?MAIN?MAIN
-            CODE    001BH     0014H     UNIT         ?PR?_DELAY?MAIN
-            CODE    002FH     000CH     UNIT         ?C_C51STARTUP
+            CODE    0003H     001AH     UNIT         ?PR?MAIN?MAIN
+            CODE    001DH     0014H     UNIT         ?PR?_DELAY?MAIN
+            CODE    0031H     000CH     UNIT         ?C_C51STARTUP
 
 
 
@@ -59,28 +59,30 @@ SYMBOL TABLE OF MODULE:  .\Objects\Key-LED-status (MAIN)
   D:00A8H         PUBLIC        IE
   D:00B8H         PUBLIC        IP
   C:0003H         PUBLIC        main
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/10/2022  20:43:38  PAGE 2
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/10/2022  21:03:48  PAGE 2
 
 
   D:0098H         PUBLIC        SCON
   D:0088H         PUBLIC        TCON
-  B:00A0H.0       PUBLIC        LED_1
-  B:00A0H.1       PUBLIC        LED_2
   D:00C8H         PUBLIC        T2CON
-  C:001BH         PUBLIC        _Delay
+  C:001DH         PUBLIC        _Delay
+  B:00A0H.0       PUBLIC        D1
   D:00D0H         PUBLIC        PSW
+  B:00B0H.1       PUBLIC        K1
   -------         PROC          MAIN
-  C:0003H         LINE#         21
-  C:0003H         LINE#         22
   C:0003H         LINE#         23
   C:0003H         LINE#         24
   C:0003H         LINE#         25
-  C:0005H         LINE#         26
-  C:0007H         LINE#         28
-  C:000EH         LINE#         29
-  C:0010H         LINE#         30
+  C:0003H         LINE#         26
+  C:0003H         LINE#         27
+  C:0005H         LINE#         28
+  C:0008H         LINE#         29
+  C:0008H         LINE#         30
+  C:000FH         LINE#         31
   C:0012H         LINE#         32
   C:0019H         LINE#         33
+  C:001BH         LINE#         34
+  C:001BH         LINE#         35
   -------         ENDPROC       MAIN
   -------         PROC          _DELAY
   D:0006H         SYMBOL        ms
@@ -88,20 +90,19 @@ SYMBOL TABLE OF MODULE:  .\Objects\Key-LED-status (MAIN)
   D:0005H         SYMBOL        i
   D:0004H         SYMBOL        j
   -------         ENDDO         
-  C:001BH         LINE#         43
-  C:001BH         LINE#         44
-  C:001BH         LINE#         47
-  C:001CH         LINE#         48
-  C:001EH         LINE#         49
-  C:0020H         LINE#         51
-  C:0020H         LINE#         53
+  C:001DH         LINE#         45
+  C:001DH         LINE#         46
+  C:001DH         LINE#         49
+  C:001EH         LINE#         52
+  C:001EH         LINE#         53
   C:0020H         LINE#         54
-  C:002AH         LINE#         55
-  C:002AH         LINE#         56
-  C:002CH         LINE#         57
-  C:002EH         LINE#         58
+  C:0022H         LINE#         56
+  C:0022H         LINE#         58
+  C:0024H         LINE#         59
+  C:0026H         LINE#         60
+  C:0030H         LINE#         62
   -------         ENDPROC       _DELAY
   -------         ENDMOD        MAIN
 
-Program Size: data=9.0 xdata=0 code=59
+Program Size: data=9.0 xdata=0 code=61
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
