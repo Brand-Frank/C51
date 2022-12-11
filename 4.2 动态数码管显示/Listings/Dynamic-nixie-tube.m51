@@ -1,0 +1,144 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    12/11/2022  21:27:43  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+D:\MCU\KEIL5\C51\C51\BIN\BL51.EXE .\Objects\main.obj TO .\Objects\Dynamic-nixie-tube PRINT (.\Listings\Dynamic-nixie-tub
+>> e.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\main.obj (MAIN)
+  D:\MCU\KEIL5\C51\C51\LIB\C51S.LIB (?C_STARTUP)
+  D:\MCU\KEIL5\C51\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\Objects\Dynamic-nixie-tube (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     000AH     UNIT         ?DT?MAIN
+            IDATA   0012H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     008CH     UNIT         ?C_C51STARTUP
+            CODE    008FH     006BH     UNIT         ?PR?_NIXIETUBE?MAIN
+            CODE    00FAH     003AH     UNIT         ?PR?MAIN?MAIN
+            CODE    0134H     0011H     UNIT         ?PR?_DELAY?MAIN
+            CODE    0145H     000DH     UNIT         ?C_INITSEG
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\Dynamic-nixie-tube (MAIN)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN
+  +--> ?PR?_NIXIETUBE?MAIN
+
+?PR?_NIXIETUBE?MAIN
+  +--> ?PR?_DELAY?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\Dynamic-nixie-tube (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/11/2022  21:27:43  PAGE 2
+
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  C:008FH         PUBLIC        _NixieTube
+  C:00FAH         PUBLIC        main
+  D:0008H         PUBLIC        smg
+  B:00A0H.2       PUBLIC        a
+  B:00A0H.3       PUBLIC        b
+  B:00A0H.4       PUBLIC        c
+  C:0134H         PUBLIC        _Delay
+  -------         PROC          MAIN
+  C:00FAH         LINE#         25
+  C:00FAH         LINE#         26
+  C:00FAH         LINE#         27
+  C:00FAH         LINE#         28
+  C:00FAH         LINE#         34
+  C:0101H         LINE#         35
+  C:0108H         LINE#         36
+  C:010FH         LINE#         37
+  C:0116H         LINE#         38
+  C:011DH         LINE#         39
+  C:0124H         LINE#         40
+  C:012BH         LINE#         41
+  C:0132H         LINE#         42
+  -------         ENDPROC       MAIN
+  -------         PROC          _NIXIETUBE
+  D:0007H         SYMBOL        location
+  D:0005H         SYMBOL        num
+  C:008FH         LINE#         51
+  C:008FH         LINE#         52
+  C:008FH         LINE#         53
+  C:00BCH         LINE#         54
+  C:00BCH         LINE#         55
+  C:00BCH         LINE#         56
+  C:00C0H         LINE#         57
+  C:00C0H         LINE#         58
+  C:00C4H         LINE#         59
+  C:00C4H         LINE#         60
+  C:00C8H         LINE#         61
+  C:00C8H         LINE#         62
+  C:00CCH         LINE#         63
+  C:00CCH         LINE#         64
+  C:00D4H         LINE#         65
+  C:00D4H         LINE#         66
+  C:00DCH         LINE#         67
+  C:00DCH         LINE#         68
+  C:00E4H         LINE#         69
+  C:00E4H         LINE#         70
+  C:00EAH         LINE#         71
+  C:00EAH         LINE#         72
+  C:00F1H         LINE#         73
+  C:00F6H         LINE#         74
+  C:00F9H         LINE#         75
+  -------         ENDPROC       _NIXIETUBE
+  -------         PROC          _DELAY
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/11/2022  21:27:43  PAGE 3
+
+
+  D:0007H         SYMBOL        xms
+  -------         DO            
+  D:0006H         SYMBOL        i
+  D:0005H         SYMBOL        j
+  -------         ENDDO         
+  C:0134H         LINE#         77
+  C:0134H         LINE#         78
+  C:0134H         LINE#         80
+  C:013AH         LINE#         81
+  C:013AH         LINE#         82
+  C:013CH         LINE#         83
+  C:013EH         LINE#         84
+  C:0140H         LINE#         85
+  C:0142H         LINE#         86
+  C:0144H         LINE#         87
+  -------         ENDPROC       _DELAY
+  -------         ENDMOD        MAIN
+
+Program Size: data=19.0 xdata=0 code=338
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

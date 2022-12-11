@@ -1,4 +1,4 @@
-C51 COMPILER V9.57.0.0   MAIN                                                              12/10/2022 21:52:25 PAGE 1   
+C51 COMPILER V9.57.0.0   MAIN                                                              12/11/2022 13:37:45 PAGE 1   
 
 
 C51 COMPILER V9.57.0.0, COMPILATION OF MODULE MAIN
@@ -27,53 +27,90 @@ line level    source
   17          #if defined ONE
   18          void main(void)
   19          {
-  20   1              while(1)
-  21   1              {
-  22   2                      if(K1 == 0)
-  23   2                      {
-  24   3                              Delay(20);
-  25   3                              while(K1==0);
-  26   3                              Delay(20);
-  27   3                              D1 = ~D1;
-  28   3                      }
-  29   2              }
-  30   1      }
-  31          
-  32          #elif defined TWO
+  20   1              uchar LED_num = 0;
+  21   1              while(1)
+  22   1              {
+  23   2                      if(K1 == 0)
+  24   2                      {
+  25   3                              Delay(20);
+  26   3                              while(K1==0);
+  27   3                              Delay(20);
+  28   3                              LED_num++;              // 0000-0001    0000-0010       0000-0011
+  29   3                              //P2++; //(1111-1111)++ --> 0000-0000 --> 0000-0001 --> 0000-0010
+  30   3                              P2 = ~LED_num;  // 1111-1110    1111-1101       1111-1100       //二进制显示
+  31   3                      }
+  32   2              }
+  33   1      }
+  34          
+  35          #elif defined TWO
+              void main(void)
+              {
+                      while(1)
+                      {
+                              if(K1 == 0)
+                              {
+                                      Delay(20);
+                                      while(K1==0);
+                                      Delay(20);
+                                      //D1 = ~D1;
+                                      P2++;   //(1111-1111)++ --> 0000-0000 --> 0000-0001     //binary-lighting
+                                      //P2 = ~P2;     //BUG: 灯不亮
+                              }
+                      }
+              }
               
-              #elif defined THREE
+              #elif defined THREE     //BUG
+              void main(void)
+              {
+C51 COMPILER V9.57.0.0   MAIN                                                              12/11/2022 13:37:45 PAGE 2   
+
+                      uchar tmp1 = 0xff;
+                      while(1)
+                      {
+                              if(K1 == 0)
+                              {
+                                      P2 = tmp1;                                                              0000-0000
+                                      Delay(20);
+                                      while(K1==0);   //未松开时会显示上面的P2值
+                                      Delay(20);
+                                      //D1 = ~D1;
+                                      P2++;   //(1111-1111)++ --> 0000-0000 --> 0000-0001     //binary-lighting
+                                      //P2 = ~P2;     //BUG: 灯不亮
+                                      tmp1 = P2;      //显示P2的取反值 0000-0000          0000-0001
+                                      P2 = ~P2;       //保存P2值            1111-1111        1111-1110
+                              }
+                      }
+              }
               
               #endif
-  37          
-  38          void Delay(uchar xms)
-  39          {
-  40   1              //_nop_();      //BUG: 会报错
-  41   1              uchar i, j;
-  42   1              //i = 2;        //BUG
-  43   1              //j = 199;      //BUG: 延时有问题
-  44   1              while(xms--)
-  45   1              {
-  46   2                      i = 2;
-  47   2                      j = 199;
-  48   2                      do
-  49   2                      {
-  50   3                              while(--j);
-  51   3                      }
-  52   2                      while(--i);
-  53   2                      //xms--;
-  54   2              }
-C51 COMPILER V9.57.0.0   MAIN                                                              12/10/2022 21:52:25 PAGE 2   
-
-  55   1                      
-  56   1      }
+  74          
+  75          void Delay(uchar xms)
+  76          {
+  77   1              //_nop_();      //BUG: 会报错
+  78   1              uchar i, j;
+  79   1              //i = 2;        //BUG
+  80   1              //j = 199;      //BUG: 延时有问题，时间会更长
+  81   1              while(xms--)
+  82   1              {
+  83   2                      i = 2;
+  84   2                      j = 199;
+  85   2                      do
+  86   2                      {
+  87   3                              while(--j);
+  88   3                      }
+  89   2                      while(--i);
+  90   2                      //xms--;
+  91   2              }
+  92   1                      
+  93   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     37    ----
+   CODE SIZE        =     45    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----    ----
+   DATA SIZE        =   ----       1
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

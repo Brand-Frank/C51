@@ -1,0 +1,133 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    12/11/2022  21:04:30  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+D:\MCU\KEIL5\C51\C51\BIN\BL51.EXE .\Objects\mian.obj TO .\Objects\Static-nixie-tube PRINT (.\Listings\Static-nixie-tube.
+>> m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\mian.obj (MIAN)
+  D:\MCU\KEIL5\C51\C51\LIB\C51S.LIB (?C_STARTUP)
+  D:\MCU\KEIL5\C51\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\Objects\Static-nixie-tube (MIAN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     000AH     UNIT         ?DT?MIAN
+            IDATA   0012H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     008CH     UNIT         ?C_C51STARTUP
+            CODE    008FH     0063H     UNIT         ?PR?_NIXIETUBE?MIAN
+            CODE    00F2H     0011H     UNIT         ?PR?_DELAY?MIAN
+            CODE    0103H     000DH     UNIT         ?C_INITSEG
+            CODE    0110H     0009H     UNIT         ?PR?MAIN?MIAN
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\Static-nixie-tube (MIAN)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?MIAN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MIAN
+  +--> ?PR?_NIXIETUBE?MIAN
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\Static-nixie-tube (MIAN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MIAN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/11/2022  21:04:30  PAGE 2
+
+
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  C:008FH         PUBLIC        _NixieTube
+  C:0110H         PUBLIC        main
+  D:0008H         PUBLIC        smg
+  B:00A0H.2       PUBLIC        a
+  B:00A0H.3       PUBLIC        b
+  B:00A0H.4       PUBLIC        c
+  C:00F2H         PUBLIC        _Delay
+  -------         PROC          MAIN
+  C:0110H         LINE#         36
+  C:0110H         LINE#         37
+  C:0110H         LINE#         38
+  C:0117H         LINE#         39
+  -------         ENDPROC       MAIN
+  -------         PROC          _NIXIETUBE
+  D:0007H         SYMBOL        location
+  D:0005H         SYMBOL        num
+  C:008FH         LINE#         46
+  C:008FH         LINE#         47
+  C:008FH         LINE#         48
+  C:00BCH         LINE#         49
+  C:00BCH         LINE#         50
+  C:00BCH         LINE#         51
+  C:00C0H         LINE#         52
+  C:00C0H         LINE#         53
+  C:00C4H         LINE#         54
+  C:00C4H         LINE#         55
+  C:00C8H         LINE#         56
+  C:00C8H         LINE#         57
+  C:00CCH         LINE#         58
+  C:00CCH         LINE#         59
+  C:00D4H         LINE#         60
+  C:00D4H         LINE#         61
+  C:00DCH         LINE#         62
+  C:00DCH         LINE#         63
+  C:00E4H         LINE#         64
+  C:00E4H         LINE#         65
+  C:00EAH         LINE#         67
+  C:00EAH         LINE#         68
+  C:00F1H         LINE#         69
+  -------         ENDPROC       _NIXIETUBE
+  -------         PROC          _DELAY
+  D:0007H         SYMBOL        xms
+  -------         DO            
+  D:0006H         SYMBOL        i
+  D:0005H         SYMBOL        j
+  -------         ENDDO         
+  C:00F2H         LINE#         71
+  C:00F2H         LINE#         72
+  C:00F2H         LINE#         74
+  C:00F8H         LINE#         75
+  C:00F8H         LINE#         76
+  C:00FAH         LINE#         77
+  C:00FCH         LINE#         78
+  C:00FEH         LINE#         79
+  C:0100H         LINE#         80
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/11/2022  21:04:30  PAGE 3
+
+
+  C:0102H         LINE#         81
+  -------         ENDPROC       _DELAY
+  -------         ENDMOD        MIAN
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY?MIAN
+
+Program Size: data=19.0 xdata=0 code=281
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)

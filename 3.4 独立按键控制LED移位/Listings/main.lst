@@ -1,0 +1,104 @@
+C51 COMPILER V9.57.0.0   MAIN                                                              12/11/2022 14:38:41 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\MCU\Keil5\C51\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include <intrins.h>
+   3          
+   4          #define ONE
+   5          #define TWO
+   6          #define THREE
+   7          
+   8          sbit D1 = P2^0;
+   9          sbit D2 = P2^1;
+  10          sbit D3 = P2^2;
+  11          sbit D4 = P2^3;
+  12          sbit K1 = P3^1;
+  13          sbit K2 = P3^0;
+  14          typedef unsigned char uchar;
+  15          
+  16          void Delay(uchar xms);
+  17          
+  18          #if defined ONE
+  19          void main(void)
+  20          {
+  21   1              uchar LEDNum = 0;
+  22   1              P2 = ~(0x01);
+  23   1              while(1)
+  24   1              {
+  25   2                      if(K1 == 0)
+  26   2                      {
+  27   3                              Delay(20);
+  28   3                              while(K1 == 0);
+  29   3                              Delay(20);
+  30   3                              LEDNum++;
+  31   3                              LEDNum = (LEDNum >= 8) ? 0 : LEDNum;
+  32   3                              P2 = ~(0x01 << LEDNum);
+  33   3                      }
+  34   2                      if(K2 == 0)
+  35   2                      {
+  36   3                              Delay(20);
+  37   3                              while(K2 == 0);
+  38   3                              Delay(20);
+  39   3                              LEDNum = (LEDNum == 0) ? 7 : --LEDNum;
+  40   3                              P2 = ~(0x01 << LEDNum); //Note: 都是基于0x01(0000-0001)来位移的
+  41   3                      }
+  42   2              }
+  43   1      }
+  44          
+  45          #elif defined TWO       //BUG
+              void main(void)
+              {
+                      uchar LEDNum = 1;
+                      while(1)
+                      {
+                              if(K1 == 0)
+                              {
+                                      Delay(20);
+                                      while(K1 == 0);
+C51 COMPILER V9.57.0.0   MAIN                                                              12/11/2022 14:38:41 PAGE 2   
+
+                                      Delay(20);
+                                      P2 = ~LEDNum;
+                                      LEDNum <<= LEDNum;
+                                      LEDNum = (LEDNum < 8) ? LEDNum : 0;
+                              }
+                              
+                      }
+              }
+              
+              #elif defined THREE
+              
+              #endif
+  67          
+  68          void Delay(uchar xms)
+  69          {
+  70   1              uchar i, j;
+  71   1              while(xms--)
+  72   1              {
+  73   2                      i = 2;
+  74   2                      j = 199;
+  75   2                      do      {       while(--j);     }
+  76   2                      while(--i);
+  77   2              }
+  78   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    116    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

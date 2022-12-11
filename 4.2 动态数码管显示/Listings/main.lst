@@ -1,0 +1,115 @@
+C51 COMPILER V9.57.0.0   MAIN                                                              12/11/2022 21:27:43 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\MCU\Keil5\C51\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include <intrins.h>
+   3          
+   4          #define ONE
+   5          //#define TWO
+   6          //#define THREE
+   7          
+   8          typedef unsigned char u8;
+   9          sbit K1 = P3^1;
+  10          sbit D1 = P2^0;
+  11          
+  12          /*      74HC138译码器        */
+  13          sbit c = P2^4;
+  14          sbit b = P2^3;
+  15          sbit a = P2^2;
+  16          
+  17          /*      8位数码管   */
+  18          //0011-1111(0), 0000-0110(1), 0101-1011(2), 0100-1111(3), 0110-0110(4), 0110-1101(5), 0111-1101(6), 0000-0
+             -111(7), 1111-1111(8), 0110-1111(9)
+  19          u8 smg[] = {0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7d, 0x07, 0xff, 0x6f};
+  20          
+  21          void Delay(u8 xms);
+  22          void NixieTube(u8 location, u8 num);
+  23          
+  24          #if defined ONE
+  25          void main(void)
+  26          {
+  27   1              while(1)
+  28   1              {
+  29   2                      /*
+  30   2                              通过延时来**消影**，给74HC254双向缓冲器延时缓冲，不然会把上一位数码管的�
+             -�据传到它下一位数码管上
+  31   2                              产生原因： 位选 段选 ->(串位)-> 位选 段选 位选 段选 位选...
+  32   2                              解决方法：显示之后，将整段清零
+  33   2                      */
+  34   2                      NixieTube(1, 1);        //Delay(5);
+  35   2                      NixieTube(2, 2);        //Delay(5);
+  36   2                      NixieTube(3, 3);        //Delay(5);
+  37   2                      NixieTube(4, 4);        //Delay(5);
+  38   2                      NixieTube(5, 5);        //Delay(5);
+  39   2                      NixieTube(6, 6);        //Delay(5);
+  40   2                      NixieTube(7, 7);        //Delay(5);
+  41   2                      NixieTube(8, 8);        //Delay(5);
+  42   2              }
+  43   1      }
+  44          
+  45          #elif defined TWO
+              
+              #elif defined THREE
+              
+              #endif
+  50          
+  51          void NixieTube(u8 location, u8 num)
+  52          {
+C51 COMPILER V9.57.0.0   MAIN                                                              12/11/2022 21:27:43 PAGE 2   
+
+  53   1              switch(location)
+  54   1              {
+  55   2                      case 8: //LED1 -> Y0 -> 000
+  56   2                              c = 0; b = 0; a = 0;    break;
+  57   2                      case 7: //LED1 -> Y1 -> 001
+  58   2                              c = 0; b = 0; a = 1;    break;
+  59   2                      case 6: //LED1 -> Y2 -> 010
+  60   2                              c = 0; b = 1; a = 0;    break;
+  61   2                      case 5: //LED1 -> Y3 -> 011
+  62   2                              c = 0; b = 1; a = 1;    break;
+  63   2                      case 4: //LED1 -> Y4 -> 100
+  64   2                              c = 1; b = 0; a = 0;    break;
+  65   2                      case 3: //LED1 -> Y5 -> 101
+  66   2                              c = 1; b = 0; a = 1;    break;
+  67   2                      case 2: //LED1 -> Y6 -> 110
+  68   2                              c = 1; b = 1; a = 0;    break;
+  69   2                      case 1: //LED1 -> Y7 -> 111
+  70   2                              c = 1; b = 1; a = 1;    break;
+  71   2              }
+  72   1              P0 = smg[num];  //Note: it's P0, not P2 !
+  73   1              Delay(1);
+  74   1              P0 = 0x00;      //Note: 消影
+  75   1      }
+  76          
+  77          void Delay(u8 xms)
+  78          {
+  79   1              u8 i, j;
+  80   1              while(xms--)
+  81   1              {
+  82   2                      i = 2;
+  83   2                      j = 199;
+  84   2                      do      {       while(--j);     }
+  85   2                      while(--i);
+  86   2              }
+  87   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    182    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     10    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

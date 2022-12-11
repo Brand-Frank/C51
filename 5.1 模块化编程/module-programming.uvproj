@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>LED</TargetName>
+      <TargetName>Module</TargetName>
       <ToolsetNumber>0x0</ToolsetNumber>
       <ToolsetName>MCS-51</ToolsetName>
       <TargetOption>
@@ -45,7 +45,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\Objects\</OutputDirectory>
-          <OutputName>LED-binary</OutputName>
+          <OutputName>module-programming</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -189,7 +189,7 @@
               <RCB>
                 <Type>0</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x10000</Size>
+                <Size>0xffff</Size>
               </RCB>
               <RXB>
                 <Type>0</Type>
@@ -270,7 +270,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath></IncludePath>
+              <IncludePath>..\5.1 模块化编程</IncludePath>
             </VariousControls>
           </C51>
           <Ax51>
@@ -320,12 +320,22 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>LED</GroupName>
+          <GroupName>Module</GroupName>
           <Files>
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>nixie.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\nixie.c</FilePath>
             </File>
           </Files>
         </Group>
