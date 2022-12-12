@@ -1,0 +1,93 @@
+C51 COMPILER V9.57.0.0   MAIN                                                              12/12/2022 23:02:04 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\MCU\Keil5\C51\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include "LCD1602.h"
+   3          #include "Delay.h"
+   4          #include "MatrixKey.h"
+   5          
+   6          unsigned char KeyNum;
+   7          unsigned int Password;
+   8          unsigned int cnt = 0;
+   9          #define PASS 2345
+  10          
+  11          #define ONE
+  12          //#define TWO
+  13          
+  14          #ifdef ONE
+  15          void main(void)
+  16          {
+  17   1              LCD_Init();
+  18   1              LCD_ShowString(1, 1, "Password:");
+  19   1              
+  20   1              while(1)
+  21   1              {
+  22   2                      KeyNum = MatrixKey();
+  23   2                      if(KeyNum)      //如果这里不作判断，则按键按下去后瞬间显示对应按键，然后显示00
+  24   2                      {
+  25   3                              if(KeyNum <= 10)        //S1-S10,输入密码
+  26   3                              {
+  27   4                                      if(cnt < 4)
+  28   4                                      {
+  29   5                                              Password *= 10;                 //左移一位；
+  30   5                                              Password += KeyNum % 10;                //获取一位密码
+  31   5                                              cnt++;
+  32   5                                      }
+  33   4                                      LCD_ShowNum(2, 1, Password, 4);
+  34   4                              }
+  35   3                              if(KeyNum == 11)        //如果S11按键按下，确认
+  36   3                              {
+  37   4                                      if(Password == PASS)    //如果密码正确，显示OK
+  38   4                                      {
+  39   5                                              LCD_ShowString(1, 14, "OK ");
+  40   5                                              Password = 0;   //密码清理
+  41   5                                              cnt = 0;        //计数清零，继续输入
+  42   5                                              LCD_ShowNum(2, 1, Password, 4); //更新显示
+  43   5                                      }
+  44   4                                      else    //否则显示ERR
+  45   4                                      {
+  46   5                                              LCD_ShowString(1, 14, "ERR");
+  47   5                                              Password = 0;   //密码清理
+  48   5                                              cnt = 0;        //计数清零，继续输入
+  49   5                                              LCD_ShowNum(2, 1, Password, 4); //更新显示
+  50   5                                      }
+  51   4                              }
+  52   3                              if(KeyNum == 12)        //如果S12按键按下，取消
+  53   3                              {
+  54   4                                      LCD_ShowString(1, 14, "ESC");
+C51 COMPILER V9.57.0.0   MAIN                                                              12/12/2022 23:02:04 PAGE 2   
+
+  55   4                                      Password = 0;   //密码清理
+  56   4                                      cnt = 0;        //计数清零，继续输入
+  57   4                                      LCD_ShowNum(2, 1, Password, 4);
+  58   4                                      Delay(1000);
+  59   4                                      LCD_ShowString(1, 14, "   ");
+  60   4                              }
+  61   3                      }
+  62   2              }
+  63   1      }
+  64          
+  65          #elif defined TWO
+              
+              #endif
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    221    ----
+   CONSTANT SIZE    =     26    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      5    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
