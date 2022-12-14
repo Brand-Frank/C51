@@ -1,0 +1,114 @@
+C51 COMPILER V9.57.0.0   MAIN                                                              12/15/2022 00:03:05 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\MCU\Keil5\C51\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          
+   3          //#define ONE
+   4          #define TWO
+   5          
+   6          void Timer0_Init();
+   7          
+   8          void main(void)
+   9          {
+  10   1              Timer0_Init();
+  11   1              while(1)
+  12   1              {
+  13   2                      
+  14   2              }
+  15   1      }
+  16          
+  17          #if defined ONE
+              void Timer0_Init()
+              {
+                      /*      TMOD    */
+                      TMOD = 0x01;
+                      
+                      /*      TCON    */
+                      TF0 = 0;        //定时器/计数器T0溢出中断标志
+                      TR0 = 1;        //定时器T0的运行控制位
+                      /*      计时器初值: 65535-65435=1000us=1ms */
+                      TH0 = 64535 / 256;      //取高8位
+                      TL0 = 64535 % 256;      //取低8位
+                      
+                      /*      中断允许控制寄存器: IE */
+                      EA = 1;         //开总中断
+                      ET0 = 1;        //T0溢出中断允许
+              
+                      /*      中断优先级控制寄存器: IP      */
+                      PT0 = 0;
+              }
+              
+              unsigned int cnt;
+              void Timer0_Routine(void) interrupt 1   //定时器/计数器初始化函数
+              {
+                      TH0 = 64535 / 256;      //每次进中断之后都需要重新赋初值
+                      TL0 = 64535 % 256;
+                      cnt++;
+                      if(cnt >= 1000)
+                      {
+                              P2_0 = ~P2_0;
+                              cnt = 0;
+                      }
+              }
+              
+              #elif defined TWO
+  52          void Timer0_Init()
+  53          {
+  54   1              /*      TMOD    */
+C51 COMPILER V9.57.0.0   MAIN                                                              12/15/2022 00:03:05 PAGE 2   
+
+  55   1              //TMOD = 0x01;
+  56   1              /*      操纵其中某些位而不影响其它位      */
+  57   1              TMOD = TMOD & 0xf0;     //把TMOD的低4位清零，高4位保持不变 1010-0011 & 1111-0000 = 1010-0000
+  58   1              TMOD = TMOD | 0x01;     //把TMOD的低4位置1，高4位保持不变   1010-0000 & 0000-0001 = 1010-0001
+  59   1              
+  60   1              /*      TCON    */
+  61   1              TF0 = 0;        //定时器/计数器T0溢出中断标志
+  62   1              TR0 = 1;        //定时器T0的运行控制位
+  63   1              /*      计时器初值: 65535-65435=1000us=1ms */
+  64   1              TH0 = 64535 / 256;      //取高8位
+  65   1              TL0 = 64535 % 256;      //取低8位
+  66   1              
+  67   1              /*      中断允许控制寄存器: IE */
+  68   1              EA = 1;         //开总中断
+  69   1              ET0 = 1;        //T0溢出中断允许
+  70   1      
+  71   1              /*      中断优先级控制寄存器: IP      */
+  72   1              PT0 = 0;        //低中断优先级
+  73   1      }
+  74          
+  75          unsigned int cnt;
+  76          void Timer0_Routine(void) interrupt 1   //定时器/计数器初始化函数
+  77          {
+  78   1              TH0 = 64535 / 256;      //每次进中断之后都需要重新赋初值
+  79   1              TL0 = 64535 % 256;
+  80   1              cnt++;
+  81   1              if(cnt >= 1000)
+  82   1              {
+  83   2                      P2_0 = ~P2_0;
+  84   2                      cnt = 0;
+  85   2              }
+  86   1      }
+  87          
+  88          #endif
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     68    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
