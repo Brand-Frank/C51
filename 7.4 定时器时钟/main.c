@@ -3,8 +3,8 @@
 #include "Timer0.h"
 #include "LCD1602.h"
 
-unsigned int sec=55, min=59, hour=23;
-//unsigned int sec, min, hour;
+//unsigned int sec=55, min=59, hour=23;
+unsigned int sec, min, hour;
 
 void main(void)
 {
