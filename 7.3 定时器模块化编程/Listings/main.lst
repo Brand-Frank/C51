@@ -1,0 +1,116 @@
+C51 COMPILER V9.57.0.0   MAIN                                                              12/15/2022 21:29:38 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\MCU\Keil5\C51\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include <INTRINS.H>
+   3          #include "Timer0.h"
+   4          #include "key.h"
+   5          
+   6          unsigned char KeyNum = 0;
+   7          unsigned char LEDMode = 0;
+   8          
+   9          //#define ONE
+  10          #define TWO
+  11          
+  12          void main(void)
+  13          {
+  14   1              P2 = 0xfe;
+  15   1              Timer0_Init();
+  16   1              while(1)
+  17   1              {
+  18   2                      KeyNum = key(); //如果没有按键按下，则下面不执行，直接进行定时器中断
+  19   2                      if(KeyNum)
+  20   2                      {
+  21   3                              if(KeyNum == 1)
+  22   3                              {
+  23   4                                      LEDMode++;
+  24   4                                      if(LEDMode >= 2) LEDMode = 0;
+  25   4                              }
+  26   3                              //if(KeyNum == 1) P2_0 = ~P2_0;
+  27   3                              if(KeyNum == 2) P2_1 = ~P2_1;
+  28   3                              //if(KeyNum == 3) P2_2 = ~P2_2;
+  29   3                              //if(KeyNum == 4) P2_3 = ~P2_3;
+  30   3                      }
+  31   2              }
+  32   1      }
+  33          
+  34          #if defined ONE
+              void Timer0_Init()
+              {
+                      /*      TMOD    */
+                      TMOD = 0x01;
+                      
+                      /*      TCON    */
+                      TF0 = 0;        //定时器/计数器T0溢出中断标志
+                      TR0 = 1;        //定时器T0的运行控制位
+                      /*      计时器初值: 65535-65435=1000us=1ms */
+                      TH0 = 64535 / 256;      //取高8位
+                      TL0 = 64535 % 256;      //取低8位
+                      
+                      /*      中断允许控制寄存器: IE */
+                      EA = 1;         //开总中断
+                      ET0 = 1;        //T0溢出中断允许
+              
+                      /*      中断优先级控制寄存器: IP      */
+                      PT0 = 0;
+              }
+              
+C51 COMPILER V9.57.0.0   MAIN                                                              12/15/2022 21:29:38 PAGE 2   
+
+              unsigned int cnt;
+              void Timer0_Routine(void) interrupt 1   //定时器/计数器初始化函数
+              {
+                      TH0 = 64535 / 256;      //每次进中断之后都需要重新赋初值
+                      TL0 = 64535 % 256;
+                      cnt++;
+                      if(cnt >= 1000)
+                      {
+                              P2_0 = ~P2_0;
+                              cnt = 0;
+                      }
+              }
+              
+              #elif defined TWO
+  69          
+  70          unsigned int cnt;
+  71          void Timer0_Routine(void) interrupt 1   //定时器/计数器初始化函数
+  72          {
+  73   1              //TH0 = 64535 / 256;    //每次进中断之后都需要重新赋初值
+  74   1              //TL0 = 64535 % 256;
+  75   1              TL0 = 0x18;             //设置定时初值
+  76   1              TH0 = 0xFC;             //设置定时初值
+  77   1              cnt++;
+  78   1              //if(cnt >=500)
+  79   1              if(cnt == 500)
+  80   1              {
+  81   2                      if(LEDMode == 0) //第0次或偶数次，左移
+  82   2                              P2 = _crol_(P2, 1);     //1111-1110 --> 1111-1101 --> 1111-1011,开发板灯从左向右亮
+  83   2                      if(LEDMode == 1)
+  84   2                              P2 = _cror_(P2, 1);
+  85   2                      //P2_0 = ~P2_0;
+  86   2                      cnt = 0;
+  87   2              }
+  88   1      }
+  89          
+  90          #endif
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    124    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
