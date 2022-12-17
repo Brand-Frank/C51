@@ -1,0 +1,45 @@
+C51 COMPILER V9.57.0.0   MAIN                                                              12/17/2022 23:47:45 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\MCU\Keil5\C51\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include "Matrix_LED.h"
+   3          
+   4          void main(void)
+   5          {
+   6   1              MatrixLED_Init();
+   7   1              //P0 = 0;
+   8   1              //_74HC595_WriteByte(0xaa);
+   9   1              //MatricLED_ShowColumn(3, 0x40);
+  10   1              while(1)
+  11   1              {
+  12   2                      MatricLED_ShowColumn(0, 0x3c);
+  13   2                      MatricLED_ShowColumn(1, 0x42);
+  14   2                      MatricLED_ShowColumn(2, 0xa9);
+  15   2                      MatricLED_ShowColumn(3, 0x85);
+  16   2                      MatricLED_ShowColumn(4, 0x85);
+  17   2                      MatricLED_ShowColumn(5, 0xa9);
+  18   2                      MatricLED_ShowColumn(6, 0x42);
+  19   2                      MatricLED_ShowColumn(7, 0x3c);
+  20   2              }
+  21   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     61    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
