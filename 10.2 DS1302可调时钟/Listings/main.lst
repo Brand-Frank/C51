@@ -1,0 +1,76 @@
+C51 COMPILER V9.57.0.0   MAIN                                                              12/18/2022 21:40:52 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\MCU\Keil5\C51\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include "LCD1602.h"
+   3          #include "DS1302.h"
+   4          #include "Delay.h"
+   5          
+   6          //#define FIRST_TEST
+   7          #define LAST
+   8          
+   9          #if defined LAST
+  10          void main(void)
+  11          {
+  12   1              LCD_Init();
+  13   1              DS1302_Init();
+  14   1              LCD_ShowString(1, 1, "  -  -  ");
+  15   1              LCD_ShowString(2, 1, "  :  :  ");
+  16   1              DS1302_SetTime();
+  17   1              
+  18   1              while(1)
+  19   1              {
+  20   2                      DS1302_ReadTime();
+  21   2                      LCD_ShowNum(1, 1, DS1302_Time[0], 2);
+  22   2                      LCD_ShowNum(1, 4, DS1302_Time[1], 2);
+  23   2                      LCD_ShowNum(1, 7, DS1302_Time[2], 2);
+  24   2                      LCD_ShowNum(2, 1, DS1302_Time[3], 2);
+  25   2                      LCD_ShowNum(2, 4, DS1302_Time[4], 2);
+  26   2                      LCD_ShowNum(2, 7, DS1302_Time[5], 2);   
+  27   2              }
+  28   1      }
+  29          
+  30          #elif defined FIRST_TEST
+              unsigned char sec, min;
+              void main(void)
+              {
+                      LCD_Init();
+                      DS1302_Init();
+                      LCD_ShowString(1, 1, "RTC");
+                      
+                      DS1302_WriteByte(0x80, 0x55);
+                      
+                      while(1)
+                      {
+                              sec = DS1302_ReadByte(0x81);            //此时的sec为BCD码显示，需要转码为十进制
+                              min = DS1302_ReadByte(0x83);
+                              LCD_ShowNum(2, 1, sec/16*10+sec%16, 2);
+                              LCD_ShowNum(2, 3, min/16*10+min%16, 2);
+                              Delay(50);
+                      }
+              }
+              
+              #endif
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    130    ----
+C51 COMPILER V9.57.0.0   MAIN                                                              12/18/2022 21:40:52 PAGE 2   
+
+   CONSTANT SIZE    =     18    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

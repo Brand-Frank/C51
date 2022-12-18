@@ -1,0 +1,51 @@
+C51 COMPILER V9.57.0.0   MAIN                                                              12/17/2022 15:07:35 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\MCU\Keil5\C51\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listing
+                    -s\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include "Delay.h"
+   3          #include "uart.h"
+   4          
+   5          unsigned char sec;
+   6          
+   7          void main(void)
+   8          {
+   9   1              unsigned char i;
+  10   1              unsigned char str[] = {'H', 'e', 'l', 'l', 'o', ' '};
+  11   1              
+  12   1              //UART_Init();
+  13   1              UartInit();
+  14   1              //UART_SendByte(0x66);
+  15   1              
+  16   1              while(1)
+  17   1              {
+  18   2      //              UART_SendByte(sec);
+  19   2      //              sec++;
+  20   2      //              Delay(1000);
+  21   2                      for(i = 0; i < (sizeof(str)/sizeof(str[0])); i++)
+  22   2                      {
+  23   3                              UART_SendByte(str[i]);
+  24   3                      }
+  25   2                      Delay(1000);
+  26   2              }
+  27   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     51    ----
+   CONSTANT SIZE    =      6    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1       7
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
