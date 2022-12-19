@@ -1,4 +1,4 @@
-C51 COMPILER V9.57.0.0   MAIN                                                              12/18/2022 21:40:52 PAGE 1   
+C51 COMPILER V9.57.0.0   MAIN                                                              12/19/2022 22:30:23 PAGE 1   
 
 
 C51 COMPILER V9.57.0.0, COMPILATION OF MODULE MAIN
@@ -12,62 +12,176 @@ line level    source
    2          #include "LCD1602.h"
    3          #include "DS1302.h"
    4          #include "Delay.h"
-   5          
-   6          //#define FIRST_TEST
-   7          #define LAST
-   8          
-   9          #if defined LAST
-  10          void main(void)
+   5          #include "key.h"
+   6          #include "Timer0.h"
+   7          
+   8          unsigned char KeyNum, MODE, TimeSetSelect, TimeSetFlashFlag;//时间设置闪烁标志位
+   9          //按下按键1，改变MODE
+  10          void TimeShow(void)
   11          {
-  12   1              LCD_Init();
-  13   1              DS1302_Init();
-  14   1              LCD_ShowString(1, 1, "  -  -  ");
-  15   1              LCD_ShowString(2, 1, "  :  :  ");
-  16   1              DS1302_SetTime();
-  17   1              
-  18   1              while(1)
-  19   1              {
-  20   2                      DS1302_ReadTime();
-  21   2                      LCD_ShowNum(1, 1, DS1302_Time[0], 2);
-  22   2                      LCD_ShowNum(1, 4, DS1302_Time[1], 2);
-  23   2                      LCD_ShowNum(1, 7, DS1302_Time[2], 2);
-  24   2                      LCD_ShowNum(2, 1, DS1302_Time[3], 2);
-  25   2                      LCD_ShowNum(2, 4, DS1302_Time[4], 2);
-  26   2                      LCD_ShowNum(2, 7, DS1302_Time[5], 2);   
-  27   2              }
-  28   1      }
-  29          
-  30          #elif defined FIRST_TEST
-              unsigned char sec, min;
-              void main(void)
-              {
-                      LCD_Init();
-                      DS1302_Init();
-                      LCD_ShowString(1, 1, "RTC");
-                      
-                      DS1302_WriteByte(0x80, 0x55);
-                      
-                      while(1)
-                      {
-                              sec = DS1302_ReadByte(0x81);            //此时的sec为BCD码显示，需要转码为十进制
-                              min = DS1302_ReadByte(0x83);
-                              LCD_ShowNum(2, 1, sec/16*10+sec%16, 2);
-                              LCD_ShowNum(2, 3, min/16*10+min%16, 2);
-                              Delay(50);
-                      }
-              }
-              
-              #endif
+  12   1              DS1302_ReadTime();
+  13   1              LCD_ShowNum(1, 1, DS1302_Time[0], 2);
+  14   1              LCD_ShowNum(1, 4, DS1302_Time[1], 2);
+  15   1              LCD_ShowNum(1, 7, DS1302_Time[2], 2);
+  16   1              LCD_ShowNum(2, 1, DS1302_Time[3], 2);
+  17   1              LCD_ShowNum(2, 4, DS1302_Time[4], 2);
+  18   1              LCD_ShowNum(2, 7, DS1302_Time[5], 2);   
+  19   1      }
+  20          
+  21          //按键2，设置年月日时分秒并存储在DS1302_Time[]数组中
+  22          void TimeSet(void)
+  23          {
+  24   1              if(KeyNum == 2) //Feature2: 切换 年/月/日/时/分/秒 6种单独的模式，初始化按2时没用
+  25   1              {
+  26   2                      TimeSetSelect++;
+  27   2                      if(TimeSetSelect > 5)   TimeSetSelect = 0; //循环切换
+  28   2                      //(TimeSetSelect++) %= 6;       //另一种切换方式，越界清零
+  29   2              }
+  30   1              
+  31   1              //Feature3: 年/月/日/时/分/秒 6种单独模式的加减
+  32   1              if(KeyNum == 3) //时间+，通过操作DS1302_Time[]数组来指定年月日时分秒种的某个往上�
+             -��
+  33   1              {
+  34   2                      DS1302_Time[TimeSetSelect]++;
+  35   2                      /*      各个单独增加时的越界处理    */
+  36   2                      if(DS1302_Time[0] > 99) { DS1302_Time[0] = 0; } //年超过99后回到0
+  37   2                      if(DS1302_Time[1] > 12) { DS1302_Time[1] = 1; } //月超过12月后回到1月
+  38   2                      /*      日超过28/29/30/31后回到1(判断平年与闰年)   */
+  39   2                      if(DS1302_Time[1]==1 || DS1302_Time[1]==3 || DS1302_Time[1]==5 || DS1302_Time[1]==7 
+  40   2                              || DS1302_Time[1]==8 || DS1302_Time[1]==10 || DS1302_Time[1]==12)       //一三五七八十腊，31天永不
+             -差
+  41   2                      {
+  42   3                              if(DS1302_Time[2] > 31) { DS1302_Time[2] = 1; }
+  43   3                      }
+  44   2                      else if(DS1302_Time[1]==4 || DS1302_Time[1]==6 || DS1302_Time[1]==9 || DS1302_Time[1]==11)      //4/6/9/11月
+             -30天
+  45   2                      {
+  46   3                              if(DS1302_Time[2] > 30) { DS1302_Time[2] = 1; }
+  47   3                      }
+  48   2                      else if(DS1302_Time[1] == 2)
+  49   2                      {
+  50   3                              if(DS1302_Time[0]%4 == 0)       //闰年
+  51   3                              {
+C51 COMPILER V9.57.0.0   MAIN                                                              12/19/2022 22:30:23 PAGE 2   
+
+  52   4                                      if(DS1302_Time[2] > 29) { DS1302_Time[2] = 1; }
+  53   4                              }
+  54   3                              else    //平年
+  55   3                              {
+  56   4                                      if(DS1302_Time[2] > 28) { DS1302_Time[2] = 1; }
+  57   4                              }
+  58   3                      }
+  59   2                      if(DS1302_Time[3] > 23) { DS1302_Time[3] = 0; } //时超过59后回到0
+  60   2                      if(DS1302_Time[4] > 59) { DS1302_Time[4] = 0; } //分超过59后回到0
+  61   2                      if(DS1302_Time[5] > 59) { DS1302_Time[5] = 0; } //秒超过59后回到0
+  62   2              }
+  63   1              if(KeyNum == 4) //时间-，通过操作DS1302_Time[]数组来指定年月日时分秒种的某个往下�
+             -��
+  64   1              {
+  65   2                      DS1302_Time[TimeSetSelect]--;
+  66   2                      /*      各个单独减小时的越界处理    */
+  67   2                      if(DS1302_Time[0] < 0)  { DS1302_Time[0] = 99; }        //年从0回到上世纪99年
+  68   2                      if(DS1302_Time[1] < 1)  { DS1302_Time[1] = 12; }        //月从1月回到上一年12月
+  69   2                      /*      日超过28/29/30/31后回到1(判断平年与闰年)   */
+  70   2                      if(DS1302_Time[1]==1 || DS1302_Time[1]==3 || DS1302_Time[1]==5 || DS1302_Time[1]==7 
+  71   2                              || DS1302_Time[1]==8 || DS1302_Time[1]==10 || DS1302_Time[1]==12)       //一三五七八十腊，31天永不
+             -差
+  72   2                      {
+  73   3                              if(DS1302_Time[2] < 1)  { DS1302_Time[2] = 31; }
+  74   3                              if(DS1302_Time[2] > 31) { DS1302_Time[2] = 1; } //Note:应对日调到31时，月调整到小于31天�
+             -�月时的不合理问题，如12-31(OK)->11-31(ERR)
+  75   3                      }
+  76   2                      else if(DS1302_Time[1]==4 || DS1302_Time[1]==6 || DS1302_Time[1]==9 || DS1302_Time[1]==11)      //4/6/9/11月
+             -30天
+  77   2                      {
+  78   3                              if(DS1302_Time[2] < 1)  { DS1302_Time[2] = 30; }
+  79   3                              if(DS1302_Time[2] > 30) { DS1302_Time[2] = 1; }
+  80   3                      }
+  81   2                      else if(DS1302_Time[1] == 2)
+  82   2                      {
+  83   3                              if(DS1302_Time[0]%4 == 0)       //闰年
+  84   3                              {
+  85   4                                      if(DS1302_Time[2] < 1)  { DS1302_Time[2] = 29; }
+  86   4                                      if(DS1302_Time[2] > 29) { DS1302_Time[2] = 1; }
+  87   4                              }
+  88   3                              else    //平年
+  89   3                              {
+  90   4                                      if(DS1302_Time[2] < 1)  { DS1302_Time[2] = 28; }
+  91   4                                      if(DS1302_Time[2] > 28) { DS1302_Time[2] = 1; }
+  92   4                              }
+  93   3                      }
+  94   2                      if(DS1302_Time[3] < 0)  { DS1302_Time[3] = 23; }        //从0回到23时
+  95   2                      if(DS1302_Time[4] < 0)  { DS1302_Time[4] = 59; }        //从0回到59分
+  96   2                      if(DS1302_Time[5] < 0)  { DS1302_Time[5] = 59; }        //从0回到59秒
+  97   2              }
+  98   1              // TimeSetFlashFlag每隔0.5s取一次反，下方条件也是间隔0.5s闪烁一次
+  99   1              if(TimeSetSelect == 0 && TimeSetFlashFlag == 1) { LCD_ShowString(1, 1, "  ");   }
+ 100   1              else {  LCD_ShowNum(1, 1, DS1302_Time[0], 2);   }
+ 101   1              if(TimeSetSelect == 1 && TimeSetFlashFlag == 1) { LCD_ShowString(1, 4, "  ");   }
+ 102   1              else {  LCD_ShowNum(1, 4, DS1302_Time[1], 2);   }
+ 103   1              if(TimeSetSelect == 2 && TimeSetFlashFlag == 1) { LCD_ShowString(1, 7, "  ");   }
+ 104   1              else {  LCD_ShowNum(1, 7, DS1302_Time[2], 2);   }
+ 105   1              if(TimeSetSelect == 3 && TimeSetFlashFlag == 1) { LCD_ShowString(2, 1, "  ");   }
+ 106   1              else {  LCD_ShowNum(2, 1, DS1302_Time[3], 2);   }
+ 107   1              if(TimeSetSelect == 4 && TimeSetFlashFlag == 1) { LCD_ShowString(2, 4, "  ");   }
+ 108   1              else {  LCD_ShowNum(2, 4, DS1302_Time[4], 2);   }
+ 109   1              if(TimeSetSelect == 5 && TimeSetFlashFlag == 1) { LCD_ShowString(2, 7, "  ");   }
+C51 COMPILER V9.57.0.0   MAIN                                                              12/19/2022 22:30:23 PAGE 3   
+
+ 110   1              else {  LCD_ShowNum(2, 7, DS1302_Time[5], 2);   }
+ 111   1              
+ 112   1              //LCD_ShowNum(2, 10, TimeSetSelect, 2); //TEST: 测试切换的按键
+ 113   1              //LCD_ShowNum(2, 13, TimeSetFlashFlag, 1);      //TEST: 测试时间设置闪烁标志位
+ 114   1      }
+ 115          
+ 116          void main(void)
+ 117          {
+ 118   1              LCD_Init();
+ 119   1              DS1302_Init();
+ 120   1              Timer0_Init();
+ 121   1              LCD_ShowString(1, 1, "  -  -  ");
+ 122   1              LCD_ShowString(2, 1, "  :  :  ");
+ 123   1              
+ 124   1              DS1302_SetTime();       //初始时间设置
+ 125   1              
+ 126   1              while(1)
+ 127   1              {
+ 128   2                      KeyNum = key();
+ 129   2                      if(KeyNum == 1) //Feature1: 按键1连按交替改变按键模式
+ 130   2                      {
+ 131   3                              if(MODE == 0)   {       MODE = 1;       }
+ 132   3                              else if(MODE == 1)      {       MODE = 0; DS1302_SetTime();     }       //Feature4: 切换回模式0显示时间时，从数
+             -组中读取当前数组中的时间
+ 133   3                      }
+ 134   2                      switch(MODE)    //交替调用两个函数:初始值为0，显示时间，当按下按键时，模式改为
+             -1，时间停止，可以设置时间
+ 135   2                      {
+ 136   3                              case 0: TimeShow(); break;
+ 137   3                              case 1: TimeSet();      break;
+ 138   3                      }
+ 139   2              }
+ 140   1      }
+ 141          
+ 142          void Timer0_Routine(void) interrupt 1   //定时器/计数器初始化函数
+ 143          {
+ 144   1              static unsigned int cnt;
+ 145   1              TL0 = 0x66;             //设置定时初值
+ 146   1              TH0 = 0xFC;             //设置定时初值
+ 147   1              cnt++;
+ 148   1              if(cnt >= 500)
+ 149   1              {
+ 150   2                      cnt = 0;
+ 151   2                      TimeSetFlashFlag = !TimeSetFlashFlag;   //0/1
+ 152   2              }
+ 153   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    130    ----
-C51 COMPILER V9.57.0.0   MAIN                                                              12/18/2022 21:40:52 PAGE 2   
-
-   CONSTANT SIZE    =     18    ----
+   CODE SIZE        =    968    ----
+   CONSTANT SIZE    =     21    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----    ----
+   DATA SIZE        =      6    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
