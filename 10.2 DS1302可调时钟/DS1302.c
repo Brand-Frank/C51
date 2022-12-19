@@ -13,7 +13,7 @@ sbit DS1302_CE = P3^5;
 #define DS1302_YEAR		0x8C	// 年
 #define DS1302_WP		0x8E	// 写保护
 
-unsigned char DS1302_Time[] = {22, 12, 18, 12, 59, 55, 7};
+char DS1302_Time[] = {22, 12, 18, 12, 59, 55, 7};
 
 void DS1302_Init(void)
 {
